@@ -52,6 +52,13 @@ public interface LabeledExprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPrintln(LabeledExprParser.PrintlnContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code printlnComComentario}
+	 * labeled alternative in {@link LabeledExprParser#stat}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrintlnComComentario(LabeledExprParser.PrintlnComComentarioContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code while}
 	 * labeled alternative in {@link LabeledExprParser#stat}.
 	 * @param ctx the parse tree

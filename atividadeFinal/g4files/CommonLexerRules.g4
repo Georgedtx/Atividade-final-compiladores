@@ -4,6 +4,7 @@ MUL: '*';
 DIV: '/';
 ADD: '+';
 SUB: '-';
+CONST: 'const';
 EQ: '=';
 VIRG: ',';
 ABCHA: '{';

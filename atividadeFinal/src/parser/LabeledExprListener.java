@@ -78,6 +78,18 @@ public interface LabeledExprListener extends ParseTreeListener {
 	 */
 	void exitPrintln(LabeledExprParser.PrintlnContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code printlnComComentario}
+	 * labeled alternative in {@link LabeledExprParser#stat}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrintlnComComentario(LabeledExprParser.PrintlnComComentarioContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code printlnComComentario}
+	 * labeled alternative in {@link LabeledExprParser#stat}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrintlnComComentario(LabeledExprParser.PrintlnComComentarioContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code while}
 	 * labeled alternative in {@link LabeledExprParser#stat}.
 	 * @param ctx the parse tree

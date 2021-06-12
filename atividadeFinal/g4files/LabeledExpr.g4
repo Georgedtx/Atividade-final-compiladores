@@ -9,6 +9,7 @@ stat: expr NEWLINE  # printExpr
     | NEWLINE # blank
     | IF expr ABCHA NEWLINE stat NEWLINE FCCHA ELSE ABCHA NEWLINE stat NEWLINE FCCHA # ifElse
     | PRINTLN expr # println
+    | PRINTLN expr var # printlnComComentario
     | WHILE expr ABCHA NEWLINE stat NEWLINE FCCHA # while
     | FOR expr PONTVIG expr ABCHA NEWLINE stat NEWLINE FCCHA # for
     ;
@@ -22,8 +23,8 @@ expr: expr op=(MUL | DIV) expr # MulDiv
     | APARE expr FPARE # parens
     ;
 
-dec:  var ID PONTVIG 
-    | var ID VIRG var 
+dec:  CONST var ID PONTVIG 
+    | CONST var ID VIRG dec 
     ;
 
 var:  INT # int

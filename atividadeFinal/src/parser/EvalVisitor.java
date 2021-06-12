@@ -39,14 +39,14 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Integer> {
 
     /** Float */
     @Override
-    public Float visitFloat(LabeledExprParser.IntContext ctx) {
-        return Float.valueOf(ctx.INT().getText());
+    public Float visitFloat(LabeledExprParser.FloatContext ctx) {
+        return Float.valueOf(ctx.FLOAT().getText());
     }
 
     /** String */
     @Override
-    public String visitString(LabeledExprParser.IntContext ctx) {
-        return ctx.INT().getText();
+    public String visitString(LabeledExprParser.StringContext ctx) {
+        return String.valueOf(ctx.STRING().getText());
     }
 
     /** ID */
@@ -103,18 +103,28 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Integer> {
 
     /** expr op=('>' | '<') */
     @Override 
-    public boolean visitMaiorMenor(LabeledExprParser.MaiorMenorContext ctx) {
+    public Integer visitMaiorMenor(LabeledExprParser.MaiorMenorContext ctx) {
         int left = visit(ctx.expr(0));
         int right = visit(ctx.expr(1));
 
 
         if((ctx.op.getType() == LabeledExprParser.MAIORQ) && (left > right)){
-            return true;
+            return 1;
         }else if((ctx.op.getType() == LabeledExprParser.MENORQ) && (left < right)) {
-            return true;
+            return 1;
         }else {
-            return false;
+            return 0;
         }      
+    }
+
+    @Override
+    public Integer visitPrintlnComComentario(LabeledExprParser.PrintlnComComentarioContext ctx) {
+        Integer value = visit(ctx.expr());
+        String text = String.valueOf(visit(ctx.var()));
+
+        System.out.println(text + value);
+
+        return 0;
     }
 
     /** If (expr) else (expr) */ 
@@ -135,10 +145,8 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Integer> {
 
     }
 
-    @Override 
-    public Integer visitWhile(LabeledExprParser.EnquantoContext ctx) {
-        return visitChildren(ctx);
-    }
+    @Override
+    public Integer visitWhile(LabeledExprParser.WhileContext ctx) { return visitChildren(ctx); }
 
     @Override 
     public Integer visitVariavel(LabeledExprParser.VariavelContext ctx) { 

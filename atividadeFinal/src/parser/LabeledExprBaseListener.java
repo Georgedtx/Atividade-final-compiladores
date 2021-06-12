@@ -88,6 +88,18 @@ public class LabeledExprBaseListener implements LabeledExprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterPrintlnComComentario(LabeledExprParser.PrintlnComComentarioContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrintlnComComentario(LabeledExprParser.PrintlnComComentarioContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterWhile(LabeledExprParser.WhileContext ctx) { }
 	/**
 	 * {@inheritDoc}
