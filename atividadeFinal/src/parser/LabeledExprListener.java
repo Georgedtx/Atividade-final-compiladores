@@ -1,4 +1,4 @@
-// Generated from C:/Users/gilia/Documents/Dev/Atividade-final-compiladores/atividadeFinal/g4files\LabeledExpr.g4 by ANTLR 4.9.1
+// Generated from C:/JavaLib/exemplo_atividade/g4files\LabeledExpr.g4 by ANTLR 4.9.1
 package parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -17,18 +17,6 @@ public interface LabeledExprListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitProg(LabeledExprParser.ProgContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code whileLoopC}
-	 * labeled alternative in {@link LabeledExprParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void enterWhileLoopC(LabeledExprParser.WhileLoopCContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code whileLoopC}
-	 * labeled alternative in {@link LabeledExprParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void exitWhileLoopC(LabeledExprParser.WhileLoopCContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code condi}
 	 * labeled alternative in {@link LabeledExprParser#stat}.
@@ -65,6 +53,30 @@ public interface LabeledExprListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDeclar(LabeledExprParser.DeclarContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code enquantoE}
+	 * labeled alternative in {@link LabeledExprParser#stat}.
+	 * @param ctx the parse tree
+	 */
+	void enterEnquantoE(LabeledExprParser.EnquantoEContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code enquantoE}
+	 * labeled alternative in {@link LabeledExprParser#stat}.
+	 * @param ctx the parse tree
+	 */
+	void exitEnquantoE(LabeledExprParser.EnquantoEContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code paraP}
+	 * labeled alternative in {@link LabeledExprParser#stat}.
+	 * @param ctx the parse tree
+	 */
+	void enterParaP(LabeledExprParser.ParaPContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code paraP}
+	 * labeled alternative in {@link LabeledExprParser#stat}.
+	 * @param ctx the parse tree
+	 */
+	void exitParaP(LabeledExprParser.ParaPContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code declarSimple}
 	 * labeled alternative in {@link LabeledExprParser#stat}.
@@ -126,77 +138,53 @@ public interface LabeledExprListener extends ParseTreeListener {
 	 */
 	void exitBlank(LabeledExprParser.BlankContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code decExpr}
-	 * labeled alternative in {@link LabeledExprParser#declaration}.
+	 * Enter a parse tree produced by the {@code condicionalExpr}
+	 * labeled alternative in {@link LabeledExprParser#condicional}.
 	 * @param ctx the parse tree
 	 */
-	void enterDecExpr(LabeledExprParser.DecExprContext ctx);
+	void enterCondicionalExpr(LabeledExprParser.CondicionalExprContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code decExpr}
-	 * labeled alternative in {@link LabeledExprParser#declaration}.
+	 * Exit a parse tree produced by the {@code condicionalExpr}
+	 * labeled alternative in {@link LabeledExprParser#condicional}.
 	 * @param ctx the parse tree
 	 */
-	void exitDecExpr(LabeledExprParser.DecExprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code decSimpleExpr}
-	 * labeled alternative in {@link LabeledExprParser#declarationSimple}.
-	 * @param ctx the parse tree
-	 */
-	void enterDecSimpleExpr(LabeledExprParser.DecSimpleExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code decSimpleExpr}
-	 * labeled alternative in {@link LabeledExprParser#declarationSimple}.
-	 * @param ctx the parse tree
-	 */
-	void exitDecSimpleExpr(LabeledExprParser.DecSimpleExprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code decConstExpr}
-	 * labeled alternative in {@link LabeledExprParser#declarationConst}.
-	 * @param ctx the parse tree
-	 */
-	void enterDecConstExpr(LabeledExprParser.DecConstExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code decConstExpr}
-	 * labeled alternative in {@link LabeledExprParser#declarationConst}.
-	 * @param ctx the parse tree
-	 */
-	void exitDecConstExpr(LabeledExprParser.DecConstExprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code condExpr}
-	 * labeled alternative in {@link LabeledExprParser#conditional}.
-	 * @param ctx the parse tree
-	 */
-	void enterCondExpr(LabeledExprParser.CondExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code condExpr}
-	 * labeled alternative in {@link LabeledExprParser#conditional}.
-	 * @param ctx the parse tree
-	 */
-	void exitCondExpr(LabeledExprParser.CondExprContext ctx);
+	void exitCondicionalExpr(LabeledExprParser.CondicionalExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code condExec}
-	 * labeled alternative in {@link LabeledExprParser#conditionalExecExpr}.
+	 * labeled alternative in {@link LabeledExprParser#condicionalExecExpr}.
 	 * @param ctx the parse tree
 	 */
 	void enterCondExec(LabeledExprParser.CondExecContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code condExec}
-	 * labeled alternative in {@link LabeledExprParser#conditionalExecExpr}.
+	 * labeled alternative in {@link LabeledExprParser#condicionalExecExpr}.
 	 * @param ctx the parse tree
 	 */
 	void exitCondExec(LabeledExprParser.CondExecContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code whileExpr}
-	 * labeled alternative in {@link LabeledExprParser#whileloop}.
+	 * Enter a parse tree produced by the {@code paraExpr}
+	 * labeled alternative in {@link LabeledExprParser#para}.
 	 * @param ctx the parse tree
 	 */
-	void enterWhileExpr(LabeledExprParser.WhileExprContext ctx);
+	void enterParaExpr(LabeledExprParser.ParaExprContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code whileExpr}
-	 * labeled alternative in {@link LabeledExprParser#whileloop}.
+	 * Exit a parse tree produced by the {@code paraExpr}
+	 * labeled alternative in {@link LabeledExprParser#para}.
 	 * @param ctx the parse tree
 	 */
-	void exitWhileExpr(LabeledExprParser.WhileExprContext ctx);
+	void exitParaExpr(LabeledExprParser.ParaExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code enquantoExpr}
+	 * labeled alternative in {@link LabeledExprParser#enquanto}.
+	 * @param ctx the parse tree
+	 */
+	void enterEnquantoExpr(LabeledExprParser.EnquantoExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code enquantoExpr}
+	 * labeled alternative in {@link LabeledExprParser#enquanto}.
+	 * @param ctx the parse tree
+	 */
+	void exitEnquantoExpr(LabeledExprParser.EnquantoExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code assingNumber}
 	 * labeled alternative in {@link LabeledExprParser#asignNumberExpr}.
@@ -307,37 +295,37 @@ public interface LabeledExprListener extends ParseTreeListener {
 	void exitInt(LabeledExprParser.IntContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Add}
-	 * labeled alternative in {@link LabeledExprParser#addExpr}.
+	 * labeled alternative in {@link LabeledExprParser#adicionarExpr}.
 	 * @param ctx the parse tree
 	 */
 	void enterAdd(LabeledExprParser.AddContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code Add}
-	 * labeled alternative in {@link LabeledExprParser#addExpr}.
+	 * labeled alternative in {@link LabeledExprParser#adicionarExpr}.
 	 * @param ctx the parse tree
 	 */
 	void exitAdd(LabeledExprParser.AddContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code stringNumberSum}
-	 * labeled alternative in {@link LabeledExprParser#stringNumberSumExpr}.
+	 * Enter a parse tree produced by the {@code stringNumber}
+	 * labeled alternative in {@link LabeledExprParser#stringNumberExpr}.
 	 * @param ctx the parse tree
 	 */
-	void enterStringNumberSum(LabeledExprParser.StringNumberSumContext ctx);
+	void enterStringNumber(LabeledExprParser.StringNumberContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code stringNumberSum}
-	 * labeled alternative in {@link LabeledExprParser#stringNumberSumExpr}.
+	 * Exit a parse tree produced by the {@code stringNumber}
+	 * labeled alternative in {@link LabeledExprParser#stringNumberExpr}.
 	 * @param ctx the parse tree
 	 */
-	void exitStringNumberSum(LabeledExprParser.StringNumberSumContext ctx);
+	void exitStringNumber(LabeledExprParser.StringNumberContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code string}
-	 * labeled alternative in {@link LabeledExprParser#stringexpr}.
+	 * labeled alternative in {@link LabeledExprParser#stringExpr}.
 	 * @param ctx the parse tree
 	 */
 	void enterString(LabeledExprParser.StringContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code string}
-	 * labeled alternative in {@link LabeledExprParser#stringexpr}.
+	 * labeled alternative in {@link LabeledExprParser#stringExpr}.
 	 * @param ctx the parse tree
 	 */
 	void exitString(LabeledExprParser.StringContext ctx);
@@ -354,15 +342,51 @@ public interface LabeledExprListener extends ParseTreeListener {
 	 */
 	void exitSumString(LabeledExprParser.SumStringContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code compareExpr}
-	 * labeled alternative in {@link LabeledExprParser#comparisson}.
+	 * Enter a parse tree produced by the {@code compararExpr}
+	 * labeled alternative in {@link LabeledExprParser#comparar}.
 	 * @param ctx the parse tree
 	 */
-	void enterCompareExpr(LabeledExprParser.CompareExprContext ctx);
+	void enterCompararExpr(LabeledExprParser.CompararExprContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code compareExpr}
-	 * labeled alternative in {@link LabeledExprParser#comparisson}.
+	 * Exit a parse tree produced by the {@code compararExpr}
+	 * labeled alternative in {@link LabeledExprParser#comparar}.
 	 * @param ctx the parse tree
 	 */
-	void exitCompareExpr(LabeledExprParser.CompareExprContext ctx);
+	void exitCompararExpr(LabeledExprParser.CompararExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code decExpr}
+	 * labeled alternative in {@link LabeledExprParser#dec}.
+	 * @param ctx the parse tree
+	 */
+	void enterDecExpr(LabeledExprParser.DecExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code decExpr}
+	 * labeled alternative in {@link LabeledExprParser#dec}.
+	 * @param ctx the parse tree
+	 */
+	void exitDecExpr(LabeledExprParser.DecExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code decSimpleExpr}
+	 * labeled alternative in {@link LabeledExprParser#decSimples}.
+	 * @param ctx the parse tree
+	 */
+	void enterDecSimpleExpr(LabeledExprParser.DecSimpleExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code decSimpleExpr}
+	 * labeled alternative in {@link LabeledExprParser#decSimples}.
+	 * @param ctx the parse tree
+	 */
+	void exitDecSimpleExpr(LabeledExprParser.DecSimpleExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code decConstExpr}
+	 * labeled alternative in {@link LabeledExprParser#decConst}.
+	 * @param ctx the parse tree
+	 */
+	void enterDecConstExpr(LabeledExprParser.DecConstExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code decConstExpr}
+	 * labeled alternative in {@link LabeledExprParser#decConst}.
+	 * @param ctx the parse tree
+	 */
+	void exitDecConstExpr(LabeledExprParser.DecConstExprContext ctx);
 }

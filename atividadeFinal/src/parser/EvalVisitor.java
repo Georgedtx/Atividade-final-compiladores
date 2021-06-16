@@ -1,5 +1,8 @@
 package parser;
 
+import parser.LabeledExprBaseVisitor;
+import parser.LabeledExprParser;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,54 +11,31 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Object> {
     Map<String, Object> memory = new HashMap<String, Object>();
 
     @Override public Object visitAssingString(LabeledExprParser.AssingStringContext ctx) {
-        try{
-            String id = ctx.ID().getText();
-
-            if(memoryConstants.containsKey(id)) { throw new Exception("Variavel ja declarada"); }
-            if(!memory.containsKey(id)) { throw new Exception("Variavel nao declarada"); }
-
-            Object value = null;
-
-            if (ctx.stringexpr() != null){
-                value = visit(ctx.stringexpr());
-            }
-
-            value = tryParse(value);
-
-            memory.put(id, value);
-
-            return value;
-        }catch(Exception ex){
-            System.err.println(ex.getMessage());
+        String id = ctx.ID().getText();
+        Object value = null;
+        if (ctx.stringExpr() != null){
+            value = visit(ctx.stringExpr());
         }
-
-        return null;
+        value = tryParse(value);
+        memory.put(id, value);
+        return value;
     }
 
     @Override
     public Boolean visitAssingNumber(LabeledExprParser.AssingNumberContext ctx) {
-        try{
-            String id = ctx.ID().getText();
+        String id = ctx.ID().getText();
 
-            if(memoryConstants.containsKey(id)) { throw new Exception("Variavel ja declarada"); }
-            if(!memory.containsKey(id)) { throw new Exception("Variavel nao declarada"); }
+        Object value = null;
 
-            Object value = null;
-
-            if(ctx.expr() != null){
-                value = visit(ctx.expr());
-            }
-
-            value = tryParse(value);
-
-            memory.put(id, value);
-
-            return true;
-        }catch(Exception ex){
-            System.err.println(ex.getMessage());
+        if(ctx.expr() != null){
+            value = visit(ctx.expr());
         }
 
-        return false;
+        value = tryParse(value);
+
+        memory.put(id, value);
+
+        return true;
     }
 
     @Override
@@ -88,37 +68,23 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Object> {
 
     @Override
     public Object visitId(LabeledExprParser.IdContext ctx) {
-        try{
-            String id = ctx.ID().getText();
-
-            if(memory.containsKey(id)) return memory.get(id);
-
-            throw new Exception("Variavel nao declarada");
-        }catch(Exception ex){
-            System.err.println("Variavel nao declarada");
-        }
-
+        String id = ctx.ID().getText();
+        if(memory.containsKey(id)) return memory.get(id);
         return null;
     }
 
     @Override
     public Object visitMulDiv(LabeledExprParser.MulDivContext ctx) {
         Object left = visit(ctx.expr(0));
-
         Object right = visit(ctx.expr(1));
-
-
         Integer castIntegerLeft = left instanceof Integer ? (Integer) left : null;
         Double castDoubleLeft = left instanceof Double ? (Double) left : null;
-
         Integer castIntegerRight = right instanceof Integer ? (Integer) right : null;
         Double castDoubleRight = right instanceof Double ? (Double) right : null;
-
         if(castIntegerLeft == null && castDoubleLeft == null ||
                 (castIntegerRight == null && castDoubleRight == null)){
             System.err.println("Variavel incorreta");
         }
-
         if(ctx.op.getType() == LabeledExprParser.MUL){
             if(castIntegerLeft != null){
                 if(castIntegerRight != null){
@@ -146,15 +112,13 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Object> {
                 return castDoubleLeft / castIntegerRight;
             }
         }
-
         return null;
     }
 
-    @Override public Object visitStringNumberSum(LabeledExprParser.StringNumberSumContext ctx) {
+    @Override public Object visitStringNumber(LabeledExprParser.StringNumberContext ctx) {
         if (ctx.sumStringExpr() != null){
              return visit(ctx.sumStringExpr());
         }
-
         return visit(ctx.expr());
     }
 
@@ -165,92 +129,75 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Object> {
         boolean isInt = ctx.op.getType() == LabeledExprParser.INT;
         boolean isFloat = ctx.op.getType() == LabeledExprParser.FLOAT;
 
-        try{
-            if(isString){
-                value = ctx.op.getText().replace("\"","");
-            }else if(isInt){
-                value = Integer.parseInt(ctx.op.getText());
-            }else if(isFloat){
-                value = Double.parseDouble(ctx.op.getText());
+        if(isString){
+            value = ctx.op.getText().replace("\"","");
+        }else if(isInt){
+            value = Integer.parseInt(ctx.op.getText());
+        }else if(isFloat){
+            value = Double.parseDouble(ctx.op.getText());
+        }else{
+            value = memory.get(ctx.op.getText());
+
+            if(value instanceof String){
+                isString = true;
+            }else if(value instanceof Integer){
+                isInt = true;
             }else{
-                if(!memory.containsKey(ctx.op.getText())){
-                    throw new Exception("Variavel nao declarada");
-                }
-                value = memory.get(ctx.op.getText());
-
-                if(value instanceof String){
-                    isString = true;
-                }else if(value instanceof Integer){
-                    isInt = true;
-                }else{
-                    isFloat = true;
-                }
+                isFloat = true;
             }
+        }
+        for (int i = 0; i < ctx.stringNumberExpr().size(); i++) {
 
-            for (int i = 0; i < ctx.stringNumberSumExpr().size(); i++) {
-
-                Object actualValue = visit(ctx.stringNumberSumExpr(i));
-                boolean isStringActualValue = false;
-                boolean isIntActualValue = false;
-                boolean isFloatActualValue = false;
-                if(actualValue instanceof Integer){
-                    if(isInt){
-                        value = (Integer) value + (Integer) actualValue;
-                        isIntActualValue = true;
-                    }else if(isFloat){
-                        value = (Double) value + (Integer) actualValue;
-                        isFloatActualValue = true;
-                    }else{
-                        value = (String) value + actualValue;
-                        isStringActualValue = true;
-                    }
-                }
-                if(actualValue instanceof Double){
-                    if(isInt){
-                        value = (Integer) value + (Double) actualValue;
-                        isFloatActualValue = true;
-                    }else if(isFloat){
-                        value = (Double) value + (Double) actualValue;
-                        isFloatActualValue = true;
-                    }else{
-                        value = (String) value + actualValue;
-                        isStringActualValue = true;
-                    }
-                }
-                if(actualValue instanceof String){
-                    value = value + (String) actualValue;
+            Object actualValue = visit(ctx.stringNumberExpr(i));
+            boolean isStringActualValue = false;
+            boolean isIntActualValue = false;
+            boolean isFloatActualValue = false;
+            if(actualValue instanceof Integer){
+                if(isInt){
+                    value = (Integer) value + (Integer) actualValue;
+                    isIntActualValue = true;
+                }else if(isFloat){
+                    value = (Double) value + (Integer) actualValue;
+                    isFloatActualValue = true;
+                }else{
+                    value = (String) value + actualValue;
                     isStringActualValue = true;
                 }
-                isString = isStringActualValue;
-                isFloat = isFloatActualValue;
-                isInt = isFloatActualValue;
             }
-
-            return value;
-        }catch (Exception ex){
-            System.err.println(ex.getMessage());
+            if(actualValue instanceof Double){
+                if(isInt){
+                    value = (Integer) value + (Double) actualValue;
+                    isFloatActualValue = true;
+                }else if(isFloat){
+                    value = (Double) value + (Double) actualValue;
+                    isFloatActualValue = true;
+                }else{
+                    value = (String) value + actualValue;
+                    isStringActualValue = true;
+                }
+            }
+            if(actualValue instanceof String){
+                value = value + (String) actualValue;
+                isStringActualValue = true;
+            }
+            isString = isStringActualValue;
+            isFloat = isFloatActualValue;
+            isInt = isFloatActualValue;
         }
-
-        return null;
+        return value;
     }
 
     @Override public Object visitSub(LabeledExprParser.SubContext ctx) {
         Object left = visit(ctx.expr(0));
-
         Object right = visit(ctx.expr(1));
-
-
         Integer castIntegerLeft = left instanceof Integer ? (Integer) left : null;
         Double castDoubleLeft = left instanceof Double ? (Double) left : null;
-
         Integer castIntegerRight = right instanceof Integer ? (Integer) right : null;
         Double castDoubleRight = right instanceof Double ? (Double) right : null;
-
         if(castIntegerLeft == null && castDoubleLeft == null ||
                 (castIntegerRight == null && castDoubleRight == null)){
             System.err.println("Variavel incorreta");
         }
-
         if(castIntegerLeft != null){
             if(castIntegerRight != null){
                 return castIntegerLeft - castIntegerRight;
@@ -263,7 +210,6 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Object> {
             }
             return castDoubleLeft - castIntegerRight;
         }
-
         return null;
     }
 
@@ -273,7 +219,6 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Object> {
                 if(!memory.containsKey(ctx.op2.getText())){
                     throw new Exception("Variavel nao declarada");
                 }
-
                 Object resultTyped = memory.get(ctx.op2.getText());
                 return resultTyped == null ? "" : resultTyped.toString();
             }
@@ -291,119 +236,78 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Object> {
 
     @Override
     public Integer visitDeclar(LabeledExprParser.DeclarContext ctx){
-        try{
-            String[] types = new String[]{ "int", "float", "string" };
+        String[] tipos = new String[]{ "int", "float", "string" };
+        String declarationText =  ctx.getText();
+        declarationText = declarationText.replace(";","");
+        String[] variaveis = declarationText.split(",");
 
-            String declarationText =  ctx.getText();
+        for (int varIndex = 0; varIndex < variaveis.length; varIndex++){
+            String variavel = variaveis[varIndex];
+            String identificador = "";
 
-
-            declarationText = declarationText.replace(";","");
-            String[] variaveis = declarationText.split(",");
-
-            for (int varIndex = 0; varIndex < variaveis.length; varIndex++){
-                String variavel = variaveis[varIndex];
-                String identificador = "";
-
-                for (int typeIndex = 0; typeIndex < types.length; typeIndex++){
-                    String tipoAtual = types[typeIndex];
-                    int posicaoTipo = variavel.indexOf(tipoAtual);
-                    if(posicaoTipo >= 0){
-                        identificador = variavel.replace(tipoAtual,"");
-                        break;
-                    }
+            for (int typeIndex = 0; typeIndex < tipos.length; typeIndex++){
+                String tipoAtual = tipos[typeIndex];
+                int posicaoTipo = variavel.indexOf(tipoAtual);
+                if(posicaoTipo >= 0){
+                    identificador = variavel.replace(tipoAtual,"");
+                    break;
                 }
-
-                identificador = identificador.trim();
-
-                if(memory.containsKey(identificador)) { throw new Exception("Variavel ja declarada"); }
-
-                memory.put(identificador, null);
             }
-        }catch(Exception ex){
-            System.err.println("Variavel ja declarada");
+            identificador = identificador.trim();
+            memory.put(identificador, null);
         }
-
         return 0;
     }
 
     @Override
-    public Integer visitDeclarSimple(LabeledExprParser.DeclarSimpleContext ctx){
-        try{
-            String[] types = new String[]{ "int", "float", "string" };
-
-            String declarationText =  ctx.getText();
-
-
-            declarationText = declarationText.replace(";","");
-            String[] variaveis = declarationText.split(",");
-
-            for (int varIndex = 0; varIndex < variaveis.length; varIndex++){
-                String variavel = variaveis[varIndex];
-                String identificador = "";
-                for (int typeIndex = 0; typeIndex < types.length; typeIndex++){
-                    String tipoAtual = types[typeIndex];
-                    int posicaoTipo = variavel.indexOf(tipoAtual);
-                    if(posicaoTipo >= 0){
-                        identificador = variavel.replace(tipoAtual,"");
-                        break;
-                    }
+    public Integer visitDecSimpleExpr(LabeledExprParser.DecSimpleExprContext ctx){
+        String[] tipos = new String[]{ "int", "float", "string" };
+        String declarationText =  ctx.getText();
+        declarationText = declarationText.replace(";","");
+        String[] variaveis = declarationText.split(",");
+        for (int varIndex = 0; varIndex < variaveis.length; varIndex++){
+            String variavel = variaveis[varIndex];
+            String identificador = "";
+            for (int tiposIndex = 0; tiposIndex < tipos.length; tiposIndex++){
+                String tipoAtual = tipos[tiposIndex];
+                int posicaoTipo = variavel.indexOf(tipoAtual);
+                if(posicaoTipo >= 0){
+                    identificador = variavel.replace(tipoAtual,"");
+                    break;
                 }
-
-                if(identificador.isEmpty()){
-                    identificador = variavel;
-                }
-
-                identificador = identificador.trim();
-
-                if(memory.containsKey(identificador)) { throw new Exception("Variavel ja declarada"); }
-
-                memory.put(identificador, null);
             }
-        }catch(Exception ex){
-            System.err.println("Variavel ja declarada");
+            if(identificador.isEmpty()){
+                identificador = variavel;
+            }
+            identificador = identificador.trim();
+            memory.put(identificador, null);
         }
-
         return 0;
     }
 
     @Override
     public Boolean visitDecConstExpr(LabeledExprParser.DecConstExprContext ctx){
         String id = ctx.ID().getText();
-
-        try{
-            if(memory.containsKey(id)) { throw new Exception("Variavel ja declarada"); }
-
-            Object value = null;
-
-            if (ctx.stringexpr() != null){
-                value = visit(ctx.stringexpr());
-            }else{
-                value = visit(ctx.expr());
-            }
-
-            value = tryParse(value);
-
-            memory.put(id, value);
-            memoryConstants.put(id, true);
-
-            return true;
-        }catch (Exception ex){
-            System.err.println(ex.getMessage());
+        Object value = null;
+        if (ctx.stringExpr() != null){
+            value = visit(ctx.stringExpr());
+        }else{
+            value = visit(ctx.expr());
         }
-
-        return false;
+        value = tryParse(value);
+        memory.put(id, value);
+        memoryConstants.put(id, true);
+        return true;
     }
 
     @Override
-    public Integer visitCondExpr(LabeledExprParser.CondExprContext ctx) {
-        int result = (Integer) visit(ctx.comparisson());
-
-        if (result == 1){
-            visit(ctx.conditionalExecExpr(0));
+    public Integer visitCondicionalExpr(LabeledExprParser.CondicionalExprContext ctx) {
+        int resultado = (Integer) visit(ctx.comparar());
+        if (resultado == 1){
+            visit(ctx.condicionalExecExpr(0));
         }else{
-            visit(ctx.conditionalExecExpr(1));
+            visit(ctx.condicionalExecExpr(1));
         }
-
         return 0;
     }
 
@@ -416,166 +320,172 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Object> {
     }
 
     @Override
-    public Integer visitWhileExpr(LabeledExprParser.WhileExprContext ctx) {
-        int result = (Integer) visit(ctx.comparisson());
-
-        while (result == 1){
+    public Object visitParaExpr(LabeledExprParser.ParaExprContext ctx) {
+        visit(ctx.asignNumberExpr());
+        Integer resultado = (Integer) visit(ctx.comparar());
+        while(resultado == 1){
             for (int i = 0; i < ctx.stat().size(); i++) {
                 visit(ctx.stat(i));
             }
-            result = (Integer) visit(ctx.comparisson());
+            resultado = (Integer) visit(ctx.comparar());
         }
-
         return 0;
     }
 
     @Override
-    public Integer visitCompareExpr(LabeledExprParser.CompareExprContext ctx) {
-        Object element1;
-        Object element2;
+    public Integer visitEnquantoExpr(LabeledExprParser.EnquantoExprContext ctx) {
+        int resultado = (Integer) visit(ctx.comparar());
+        while (resultado == 1){
+            for (int i = 0; i < ctx.stat().size(); i++) {
+                visit(ctx.stat(i));
+            }
+            resultado = (Integer) visit(ctx.comparar());
+        }
+        return 0;
+    }
 
+    @Override
+    public Integer visitCompararExpr(LabeledExprParser.CompararExprContext ctx) {
+        Object obj1;
+        Object obj2;
         if (ctx.op1.getType() == LabeledExprParser.INT){
-            element1 = Integer.valueOf(ctx.op1.getText());
+            obj1 = Integer.valueOf(ctx.op1.getText());
         }else if(ctx.op1.getType() == LabeledExprParser.FLOAT){
-            element1 = Double.valueOf(ctx.op1.getText());
+            obj1 = Double.valueOf(ctx.op1.getText());
         }else if(ctx.op1.getType() == LabeledExprParser.STRING){
-            element1 = ctx.op1.getText().replace("\"","");
+            obj1 = ctx.op1.getText().replace("\"","");
         }else{
-            element1 = memory.get(ctx.op1.getText());
+            obj1 = memory.get(ctx.op1.getText());
         }
-
         if (ctx.op2.getType() == LabeledExprParser.INT){
-            element2 = Integer.valueOf(ctx.op2.getText());
+            obj2 = Integer.valueOf(ctx.op2.getText());
         }else if(ctx.op2.getType() == LabeledExprParser.FLOAT){
-            element2 = Double.valueOf(ctx.op2.getText());
+            obj2 = Double.valueOf(ctx.op2.getText());
         }else if(ctx.op2.getType() == LabeledExprParser.STRING){
-            element2 = ctx.op2.getText().replace("\"","");
+            obj2 = ctx.op2.getText().replace("\"","");
         }else{
-            element2 = memory.get(ctx.op2.getText());
+            obj2 = memory.get(ctx.op2.getText());
         }
-
         String comparador = ctx.OPEREL().getText();
-
         try{
             if (comparador.equals("<")){
-                if(element1 instanceof Integer){
-                    if(element2 instanceof Integer){
-                        return (Integer) element1 < (Integer)  element2 ? 1 : 0;
-                    }else if(element2 instanceof Double){
-                        return (Integer) element1 < (Double)  element2 ? 1 : 0;
+                if(obj1 instanceof Integer){
+                    if(obj2 instanceof Integer){
+                        return (Integer) obj1 < (Integer)  obj2 ? 1 : 0;
+                    }else if(obj2 instanceof Double){
+                        return (Integer) obj1 < (Double)  obj2 ? 1 : 0;
                     }
                     throw new Exception("Tipos nao podem ser comparados");
-                }else if(element1 instanceof Double){
-                    if(element2 instanceof Integer){
-                        return (Double) element1 < (Integer) element2 ? 1 : 0;
-                    }else if(element2 instanceof Double){
-                        return (Double) element1 < (Double) element2 ? 1 : 0;
+                }else if(obj1 instanceof Double){
+                    if(obj2 instanceof Integer){
+                        return (Double) obj1 < (Integer) obj2 ? 1 : 0;
+                    }else if(obj2 instanceof Double){
+                        return (Double) obj1 < (Double) obj2 ? 1 : 0;
                     }
                     throw new Exception("Tipos nao podem ser comparados");
                 }else{
                     throw new Exception("Tipo incorreto");
                 }
             }else if(comparador.equals(">")){
-                if(element1 instanceof Integer){
-                    if(element2 instanceof Integer){
-                        return (Integer) element1 > (Integer)  element2 ? 1 : 0;
-                    }else if(element2 instanceof Double){
-                        return (Integer) element1 > (Double)  element2 ? 1 : 0;
+                if(obj1 instanceof Integer){
+                    if(obj2 instanceof Integer){
+                        return (Integer) obj1 > (Integer)  obj2 ? 1 : 0;
+                    }else if(obj2 instanceof Double){
+                        return (Integer) obj1 > (Double)  obj2 ? 1 : 0;
                     }
                     throw new Exception("Tipos nao podem ser comparados");
-                }else if(element1 instanceof Double){
-                    if(element2 instanceof Integer){
-                        return (Double) element1 > (Integer) element2 ? 1 : 0;
-                    }else if(element2 instanceof Double){
-                        return (Double) element1 > (Double) element2 ? 1 : 0;
+                }else if(obj1 instanceof Double){
+                    if(obj2 instanceof Integer){
+                        return (Double) obj1 > (Integer) obj2 ? 1 : 0;
+                    }else if(obj2 instanceof Double){
+                        return (Double) obj1 > (Double) obj2 ? 1 : 0;
                     }
                     throw new Exception("Tipos nao podem ser comparados");
                 }else{
                     throw new Exception("Tipo incorreto");
                 }
             }else if(comparador.equals("==")){
-                if(element1 instanceof Integer){
-                    if(element2 instanceof Integer){
-                        return ((Integer) element1).equals((Integer)  element2) ? 1 : 0;
-                    }else if(element2 instanceof Double){
+                if(obj1 instanceof Integer){
+                    if(obj2 instanceof Integer){
+                        return ((Integer) obj1).equals((Integer)  obj2) ? 1 : 0;
+                    }else if(obj2 instanceof Double){
                         return 0;
                     }
                     throw new Exception("Tipos nao podem ser comparados");
-                }else if(element1 instanceof Double){
-                    if(element2 instanceof Integer){
+                }else if(obj1 instanceof Double){
+                    if(obj2 instanceof Integer){
                         return 0;
-                    }else if(element2 instanceof Double){
-                        return ((Double) element1).equals((Double)  element2) ? 1 : 0;
+                    }else if(obj2 instanceof Double){
+                        return ((Double) obj1).equals((Double)  obj2) ? 1 : 0;
                     }
                     throw new Exception("Tipos nao podem ser comparados");
                 }else{
-                    if(!(element2 instanceof String)){
+                    if(!(obj2 instanceof String)){
                         throw new Exception("Tipo incorreto");
                     }
-                    return ((String) element1).equals((String)  element2) ? 1 : 0;
+                    return ((String) obj1).equals((String)  obj2) ? 1 : 0;
                 }
             }else if(comparador.equals(">=")){
-                if(element1 instanceof Integer){
-                    if(element2 instanceof Integer){
-                        return (Integer) element1 >= (Integer)  element2 ? 1 : 0;
-                    }else if(element2 instanceof Double){
-                        return (Integer) element1 >= (Double)  element2 ? 1 : 0;
+                if(obj1 instanceof Integer){
+                    if(obj2 instanceof Integer){
+                        return (Integer) obj1 >= (Integer)  obj2 ? 1 : 0;
+                    }else if(obj2 instanceof Double){
+                        return (Integer) obj1 >= (Double)  obj2 ? 1 : 0;
                     }
                     throw new Exception("Tipos nao podem ser comparados");
-                }else if(element1 instanceof Double){
-                    if(element2 instanceof Integer){
-                        return (Double) element1 >= (Integer) element2 ? 1 : 0;
-                    }else if(element2 instanceof Double){
-                        return (Double) element1 >= (Double) element2 ? 1 : 0;
+                }else if(obj1 instanceof Double){
+                    if(obj2 instanceof Integer){
+                        return (Double) obj1 >= (Integer) obj2 ? 1 : 0;
+                    }else if(obj2 instanceof Double){
+                        return (Double) obj1 >= (Double) obj2 ? 1 : 0;
                     }
                     throw new Exception("Tipos nao podem ser comparados");
                 }else{
                     throw new Exception("Tipo incorreto");
                 }
             }else if(comparador.equals("<=")){
-                if(element1 instanceof Integer){
-                    if(element2 instanceof Integer){
-                        return (Integer) element1 <= (Integer)  element2 ? 1 : 0;
-                    }else if(element2 instanceof Double){
-                        return (Integer) element1 <= (Double)  element2 ? 1 : 0;
+                if(obj1 instanceof Integer){
+                    if(obj2 instanceof Integer){
+                        return (Integer) obj1 <= (Integer)  obj2 ? 1 : 0;
+                    }else if(obj2 instanceof Double){
+                        return (Integer) obj1 <= (Double)  obj2 ? 1 : 0;
                     }
                     throw new Exception("Tipos nao podem ser comparados");
-                }else if(element1 instanceof Double){
-                    if(element2 instanceof Integer){
-                        return (Double) element1 <= (Integer) element2 ? 1 : 0;
-                    }else if(element2 instanceof Double){
-                        return (Double) element1 <= (Double) element2 ? 1 : 0;
+                }else if(obj1 instanceof Double){
+                    if(obj2 instanceof Integer){
+                        return (Double) obj1 <= (Integer) obj2 ? 1 : 0;
+                    }else if(obj2 instanceof Double){
+                        return (Double) obj1 <= (Double) obj2 ? 1 : 0;
                     }
                     throw new Exception("Tipos nao podem ser comparados");
                 }else{
                     throw new Exception("Tipo incorreto");
                 }
             }else{
-                if(element1 instanceof Integer){
-                    if(element2 instanceof Integer){
-                        return !((Integer) element1).equals((Integer)  element2) ? 1 : 0;
-                    }else if(element2 instanceof Double){
+                if(obj1 instanceof Integer){
+                    if(obj2 instanceof Integer){
+                        return !((Integer) obj1).equals((Integer)  obj2) ? 1 : 0;
+                    }else if(obj2 instanceof Double){
                         return 0;
                     }
                     throw new Exception("Tipos nao podem ser comparados");
-                }else if(element1 instanceof Double){
-                    if(element2 instanceof Integer){
+                }else if(obj1 instanceof Double){
+                    if(obj2 instanceof Integer){
                         return 0;
-                    }else if(element2 instanceof Double){
-                        return !((Double) element1).equals((Double)  element2) ? 1 : 0;
+                    }else if(obj2 instanceof Double){
+                        return !((Double) obj1).equals((Double)  obj2) ? 1 : 0;
                     }
                     throw new Exception("Tipos nao podem ser comparados");
                 }else{
-                    if(!(element2 instanceof String)){
+                    if(!(obj2 instanceof String)){
                         throw new Exception("Tipo incorreto");
                     }
-                    return !((String) element1).equals((String)  element2) ? 1 : 0;
+                    return !((String) obj1).equals((String)  obj2) ? 1 : 0;
                 }
             }
         }catch (Exception ex){
             System.err.println(ex.getMessage());
         }
-
         return null;
     }
 
@@ -584,19 +494,14 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Object> {
         if(value == null){
             return null;
         }
-
         Integer convertedInt = tryParseInt(value.toString());
-
         if(convertedInt != null){
             return convertedInt;
         }
-
         Double convertedDouble = tryParseDouble(value.toString());
-
         if(convertedDouble != null){
             return convertedDouble;
         }
-
         return value;
     }
 
@@ -615,5 +520,4 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Object> {
             return null;
         }
     }
-
 }

@@ -4,44 +4,32 @@ import CommonLexerRules;
 
 prog: stat+;
 
-stat: whileloop NEWLINE # whileLoopC
-    | conditional NEWLINE # condi
+stat: condicional NEWLINE # condi
     | expr NEWLINE # exp
-    | declaration NEWLINE # declar
-    | declarationSimple NEWLINE # declarSimple
-    | declarationConst NEWLINE # declarConst
+    | dec NEWLINE # declar
+    | enquanto NEWLINE # enquantoE
+    | para NEWLINE # paraP
+    | decSimples NEWLINE # declarSimple
+    | decConst NEWLINE # declarConst
     | (asignNumberExpr|asignStringExpr) NEWLINE # assing
     | PRINTLN APARE (expr) FPARE # Println
     | NEWLINE # blank
     ;
 
-
-declaration:
-    TYPES ID (VIRG TYPES ID)*PTVIRG # decExpr
+condicional:
+    IF APARE comparar FPARE ABCHAV condicionalExecExpr FCCHAV (ELSE ABCHAV NEWLINE* condicionalExecExpr FCCHAV)? # condicionalExpr
     ;
 
-
-declarationSimple:
-    TYPES ID (VIRG ID)*PTVIRG # decSimpleExpr
-    ;
-
-
-declarationConst:
-    CONST TYPES ID EQ (expr | stringexpr) # decConstExpr
-    ;
-
-
-conditional:
-    IF APARE comparisson FPARE ABCHAV conditionalExecExpr FCCHAV (ELSE ABCHAV NEWLINE* conditionalExecExpr FCCHAV)? # condExpr
-    ;
-
-conditionalExecExpr:
+condicionalExecExpr:
     stat+ # condExec
     ;
 
+para:
+    FOR APARE asignNumberExpr PTVIRG comparar FPARE ABCHAV stat+ FCCHAV # paraExpr
+    ;
 
-whileloop:
-    WHILE APARE comparisson FPARE ABCHAV stat+ FCCHAV # whileExpr
+enquanto:
+    WHILE APARE comparar FPARE ABCHAV stat+ FCCHAV # enquantoExpr
     ;
 
 asignNumberExpr:
@@ -49,13 +37,13 @@ asignNumberExpr:
     ;
 
 asignStringExpr:
-    ID EQ stringexpr # assingString
+    ID EQ stringExpr # assingString
     ;
 
 
 expr:
     expr op=(MUL | DIV) expr # MulDiv
-    | addExpr # AddE
+    | adicionarExpr # AddE
     | expr SUB expr # Sub
     | INT # int
     | ID # id
@@ -63,15 +51,15 @@ expr:
     | APARE expr FPARE # paren
     ;
 
-addExpr:
-    op=(STRING | INT | FLOAT | ID) ADD stringNumberSumExpr+ # Add
+adicionarExpr:
+    op=(STRING | INT | FLOAT | ID) ADD stringNumberExpr+ # Add
     ;
 
-stringNumberSumExpr:
-    (sumStringExpr | expr) # stringNumberSum
+stringNumberExpr:
+    (sumStringExpr | expr) # stringNumber
     ;
 
-stringexpr:
+stringExpr:
     STRING # string
     ;
 
@@ -79,6 +67,20 @@ sumStringExpr:
     op2=(ID | STRING) # sumString
     ;
 
-comparisson:
-    op1=(INT | FLOAT | STRING | ID) OPEREL op2=(INT | FLOAT | STRING | ID) # compareExpr
+comparar:
+    op1=(INT | FLOAT | STRING | ID) OPEREL op2=(INT | FLOAT | STRING | ID) # compararExpr
+    ;
+
+dec:
+    TIPO ID (VIRG TIPO ID)*PTVIRG # decExpr
+    ;
+
+
+decSimples:
+    TIPO ID (VIRG ID)*PTVIRG # decSimpleExpr
+    ;
+
+
+decConst:
+    CONST TIPO ID EQ (expr | stringExpr) # decConstExpr
     ;

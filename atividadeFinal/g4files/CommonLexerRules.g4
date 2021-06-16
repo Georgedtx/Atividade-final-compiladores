@@ -18,17 +18,12 @@ APARE: '(';
 FPARE: ')';
 VIRG: ',';
 PTVIRG: ';';
-TYPES: ('int'|'float'|'string');
+TIPO: ('int'|'float'|'string');
 CONST: 'const';
 ID: [a-zA-Z]+;
 INT: [0-9]+;
-FLOAT
- : [0-9]+ '.' [0-9]*
- | '.' [0-9]+
- ;
-STRING
- : '"' (~["\r\n] | '""')* '"'
- ;
+FLOAT: [0-9]+ '.' [0-9]*| '.' [0-9]+;
+STRING: '"' (~["\r\n] | '""')* '"';
 COMMENT: '/*' .*? '*/' -> skip;
 NEWLINE: '\r'? '\n';
 WS: [ \t]+ -> skip;

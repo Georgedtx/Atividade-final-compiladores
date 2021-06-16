@@ -1,4 +1,4 @@
-// Generated from C:/Users/gilia/Documents/Dev/Atividade-final-compiladores/atividadeFinal/g4files\LabeledExpr.g4 by ANTLR 4.9.1
+// Generated from C:/JavaLib/exemplo_atividade/g4files\LabeledExpr.g4 by ANTLR 4.9.1
 package parser;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -19,7 +19,7 @@ public class LabeledExprLexer extends Lexer {
 	public static final int
 		IF=1, ELSE=2, WHILE=3, FOR=4, PRINTLN=5, PRINT=6, OPEREL=7, MUL=8, DIV=9, 
 		ADD=10, SUB=11, EQ=12, ABCHAV=13, FCCHAV=14, APARE=15, FPARE=16, VIRG=17, 
-		PTVIRG=18, TYPES=19, CONST=20, ID=21, INT=22, FLOAT=23, STRING=24, COMMENT=25, 
+		PTVIRG=18, TIPO=19, CONST=20, ID=21, INT=22, FLOAT=23, STRING=24, COMMENT=25, 
 		NEWLINE=26, WS=27;
 	public static String[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
@@ -33,7 +33,7 @@ public class LabeledExprLexer extends Lexer {
 		return new String[] {
 			"IF", "ELSE", "WHILE", "FOR", "PRINTLN", "PRINT", "OPEREL", "MUL", "DIV", 
 			"ADD", "SUB", "EQ", "ABCHAV", "FCCHAV", "APARE", "FPARE", "VIRG", "PTVIRG", 
-			"TYPES", "CONST", "ID", "INT", "FLOAT", "STRING", "COMMENT", "NEWLINE", 
+			"TIPO", "CONST", "ID", "INT", "FLOAT", "STRING", "COMMENT", "NEWLINE", 
 			"WS"
 		};
 	}
@@ -51,7 +51,7 @@ public class LabeledExprLexer extends Lexer {
 		return new String[] {
 			null, "IF", "ELSE", "WHILE", "FOR", "PRINTLN", "PRINT", "OPEREL", "MUL", 
 			"DIV", "ADD", "SUB", "EQ", "ABCHAV", "FCCHAV", "APARE", "FPARE", "VIRG", 
-			"PTVIRG", "TYPES", "CONST", "ID", "INT", "FLOAT", "STRING", "COMMENT", 
+			"PTVIRG", "TIPO", "CONST", "ID", "INT", "FLOAT", "STRING", "COMMENT", 
 			"NEWLINE", "WS"
 		};
 	}

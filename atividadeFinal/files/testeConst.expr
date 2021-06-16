@@ -1,3 +1,4 @@
-const string a = "Errou"
+string a = "Errou"
 const string b = " Acertou"
+
 println(a + b);

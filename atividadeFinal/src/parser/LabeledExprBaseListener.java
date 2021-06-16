@@ -1,4 +1,4 @@
-// Generated from C:/Users/gilia/Documents/Dev/Atividade-final-compiladores/atividadeFinal/g4files\LabeledExpr.g4 by ANTLR 4.9.1
+// Generated from C:/JavaLib/exemplo_atividade/g4files\LabeledExpr.g4 by ANTLR 4.9.1
 package parser;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -23,18 +23,6 @@ public class LabeledExprBaseListener implements LabeledExprListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitProg(LabeledExprParser.ProgContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterWhileLoopC(LabeledExprParser.WhileLoopCContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitWhileLoopC(LabeledExprParser.WhileLoopCContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -71,6 +59,30 @@ public class LabeledExprBaseListener implements LabeledExprListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDeclar(LabeledExprParser.DeclarContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEnquantoE(LabeledExprParser.EnquantoEContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEnquantoE(LabeledExprParser.EnquantoEContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParaP(LabeledExprParser.ParaPContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParaP(LabeledExprParser.ParaPContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -136,49 +148,13 @@ public class LabeledExprBaseListener implements LabeledExprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDecExpr(LabeledExprParser.DecExprContext ctx) { }
+	@Override public void enterCondicionalExpr(LabeledExprParser.CondicionalExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDecExpr(LabeledExprParser.DecExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDecSimpleExpr(LabeledExprParser.DecSimpleExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDecSimpleExpr(LabeledExprParser.DecSimpleExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDecConstExpr(LabeledExprParser.DecConstExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDecConstExpr(LabeledExprParser.DecConstExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterCondExpr(LabeledExprParser.CondExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCondExpr(LabeledExprParser.CondExprContext ctx) { }
+	@Override public void exitCondicionalExpr(LabeledExprParser.CondicionalExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -196,13 +172,25 @@ public class LabeledExprBaseListener implements LabeledExprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterWhileExpr(LabeledExprParser.WhileExprContext ctx) { }
+	@Override public void enterParaExpr(LabeledExprParser.ParaExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitWhileExpr(LabeledExprParser.WhileExprContext ctx) { }
+	@Override public void exitParaExpr(LabeledExprParser.ParaExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEnquantoExpr(LabeledExprParser.EnquantoExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEnquantoExpr(LabeledExprParser.EnquantoExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -328,13 +316,13 @@ public class LabeledExprBaseListener implements LabeledExprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStringNumberSum(LabeledExprParser.StringNumberSumContext ctx) { }
+	@Override public void enterStringNumber(LabeledExprParser.StringNumberContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStringNumberSum(LabeledExprParser.StringNumberSumContext ctx) { }
+	@Override public void exitStringNumber(LabeledExprParser.StringNumberContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -364,13 +352,49 @@ public class LabeledExprBaseListener implements LabeledExprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCompareExpr(LabeledExprParser.CompareExprContext ctx) { }
+	@Override public void enterCompararExpr(LabeledExprParser.CompararExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCompareExpr(LabeledExprParser.CompareExprContext ctx) { }
+	@Override public void exitCompararExpr(LabeledExprParser.CompararExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDecExpr(LabeledExprParser.DecExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDecExpr(LabeledExprParser.DecExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDecSimpleExpr(LabeledExprParser.DecSimpleExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDecSimpleExpr(LabeledExprParser.DecSimpleExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDecConstExpr(LabeledExprParser.DecConstExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDecConstExpr(LabeledExprParser.DecConstExprContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

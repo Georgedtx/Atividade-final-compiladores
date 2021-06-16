@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception{
 
-        String inputFile = "atividadeFinal/files/testeConst.expr";
+        String inputFile = "C:\\JavaLib\\exemplo_atividade\\files\\teste.expr";
 
 
         InputStream is = System.in;

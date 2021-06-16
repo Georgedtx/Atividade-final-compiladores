@@ -1,0 +1,10 @@
+int a,b,c;
+float d,e,f;
+string x,y,z;
+a = 10
+d = 10.0
+x = "carro"
+println(a)
+println(d)
+println(x)
+
