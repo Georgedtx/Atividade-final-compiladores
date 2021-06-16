@@ -1,5 +1,13 @@
-93
-a = 5
-b = 6
-a + b * 2
-(1+2)*3
+int a;
+int b;
+
+a = 3
+b = 4
+
+/*comentarios*/
+
+if(a == 3) {
+    println(a)
+} else {
+    println(b)
+}

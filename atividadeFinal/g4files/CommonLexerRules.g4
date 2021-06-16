@@ -1,26 +1,34 @@
 lexer grammar CommonLexerRules;
 
+IF: 'if';
+ELSE: 'else';
+WHILE: 'while';
+FOR: 'for';
+PRINTLN: 'println';
+PRINT: 'print';
+OPEREL: ('<'|'>'|'=='|'!='|'>='|'<=');
 MUL: '*';
 DIV: '/';
 ADD: '+';
 SUB: '-';
-CONST: 'const';
 EQ: '=';
-VIRG: ',';
-ABCHA: '{';
-FCCHA: '}';
+ABCHAV: '{';
+FCCHAV: '}';
 APARE: '(';
 FPARE: ')';
-IF: 'if';
-WHILE: 'while';
-FOR: 'for';
-MENORQ: '<';
-MAIORQ: '>';
-ELSE: 'else';
-PRINTLN: 'println';
-PONTVIG: ';';
+VIRG: ',';
+PTVIRG: ';';
+TYPES: ('int'|'float'|'string');
+CONST: 'const';
 ID: [a-zA-Z]+;
 INT: [0-9]+;
-NEWLINE: '\r'? '\n';
+FLOAT
+ : [0-9]+ '.' [0-9]*
+ | '.' [0-9]+
+ ;
+STRING
+ : '"' (~["\r\n] | '""')* '"'
+ ;
 COMMENT: '/*' .*? '*/' -> skip;
+NEWLINE: '\r'? '\n';
 WS: [ \t]+ -> skip;
